@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuesioner Feasibility Study: Climate Dashboard</title>
+<style>
+  :root{
+    --navy:#0f2a43;
+    --teal:#0e7c86;
+    --teal-light:#e6f3f3;
+    --ink:#1f2937;
+    --muted:#64748b;
+    --border:#e2e8f0;
+    --bg:#f6f8f9;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    padding:24px 16px 64px;
+  }
+  .wrap{max-width:720px;margin:0 auto;}
+  .card{
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:28px 28px 32px;
+    margin-bottom:20px;
+    box-shadow:0 1px 3px rgba(15,42,67,0.06);
+  }
+  header.card{
+    background:linear-gradient(135deg,var(--navy),var(--teal));
+    color:#fff;
+    border:none;
+  }
+  header h1{margin:0 0 8px;font-size:22px;font-weight:700;}
+  header p{margin:0;font-size:14px;line-height:1.6;opacity:0.92;}
+  h2{
+    font-size:15px;
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    color:var(--teal);
+    margin:0 0 18px;
+    border-bottom:2px solid var(--teal-light);
+    padding-bottom:8px;
+  }
+  .q{margin-bottom:22px;}
+  .q:last-child{margin-bottom:0;}
+  label.qtitle{
+    display:block;
+    font-weight:600;
+    font-size:14.5px;
+    margin-bottom:8px;
+    color:var(--ink);
+  }
+  .req{color:#d14343;font-weight:400;}
+  select, textarea, input[type=text]{
+    width:100%;
+    padding:10px 12px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    font-size:14px;
+    font-family:inherit;
+    color:var(--ink);
+    background:#fff;
+  }
+  textarea{resize:vertical;min-height:70px;}
+  .scale{display:flex;gap:8px;flex-wrap:wrap;}
+  .scale label{
+    flex:1;
+    min-width:52px;
+    text-align:center;
+    border:1px solid var(--border);
+    border-radius:8px;
+    padding:10px 6px;
+    font-size:13px;
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .scale input{display:none;}
+  .scale input:checked + span{color:#fff;}
+  .scale label:has(input:checked){
+    background:var(--teal);
+    border-color:var(--teal);
+    color:#fff;
+  }
+  .scale-caption{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:4px;}
+  .options label{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:9px 10px;
+    border:1px solid var(--border);
+    border-radius:8px;
+    margin-bottom:6px;
+    font-size:14px;
+    cursor:pointer;
+  }
+  .options input{width:16px;height:16px;flex-shrink:0;}
+  .hint{font-size:12px;color:var(--muted);margin-top:6px;}
+  button[type=submit]{
+    width:100%;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    padding:14px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    margin-top:8px;
+  }
+  button[type=submit]:disabled{opacity:0.6;cursor:not-allowed;}
+  #successMsg{
+    display:none;
+    text-align:center;
+    padding:40px 24px;
+  }
+  #successMsg h2{border:none;color:var(--navy);font-size:20px;text-transform:none;letter-spacing:0;}
+  #successMsg p{color:var(--muted);font-size:14px;}
+  #errorMsg{display:none;color:#d14343;font-size:13px;margin-top:10px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="card">
+    <h1>Kuesioner Feasibility Study: Climate Dashboard</h1>
+    <p>Mohon bantuannya mengisi kuesioner ini untuk menilai kelayakan pengembangan climate dashboard dari sudut pandang pelaku industri. Waktu pengisian sekitar 7-10 menit. Jawaban diperlakukan secara rahasia dan hanya digunakan untuk kebutuhan studi ini.</p>
+  </header>
+
+  <form id="surveyForm">
+
+    <div class="card">
+      <h2>A. Profil Responden</h2>
+
+      <div class="q">
+        <label class="qtitle">1. Sektor industri perusahaan Anda <span class="req">*</span></label>
+        <select name="sektor" required>
+          <option value="">-- Pilih --</option>
+          <option>Manufaktur</option>
+          <option>Energi</option>
+          <option>Pertambangan</option>
+          <option>Pertanian / Agribisnis</option>
+          <option>Konstruksi</option>
+          <option>Logistik & Transportasi</option>
+          <option>Keuangan</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">2. Skala perusahaan (jumlah karyawan) <span class="req">*</span></label>
+        <select name="skala" required>
+          <option value="">-- Pilih --</option>
+          <option>Kurang dari 50</option>
+          <option>50 - 250</option>
+          <option>251 - 1000</option>
+          <option>Lebih dari 1000</option>
+        </select>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">3. Jabatan / fungsi Anda di perusahaan <span class="req">*</span></label>
+        <select name="jabatan" required>
+          <option value="">-- Pilih --</option>
+          <option>Manajemen puncak (C-level/Direksi)</option>
+          <option>Sustainability / HSE</option>
+          <option>IT / Data</option>
+          <option>Operasional</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>B. Kesiapan Teknologi</h2>
+
+      <div class="q">
+        <label class="qtitle">4. Sistem apa yang saat ini digunakan untuk mencatat/memantau data operasional, energi, atau emisi? <span class="req">*</span></label>
+        <select name="sistemMonitoring" required>
+          <option value="">-- Pilih --</option>
+          <option>ERP terintegrasi</option>
+          <option>Spreadsheet manual (Excel/Google Sheets)</option>
+          <option>Software khusus sustainability</option>
+          <option>Belum ada sistem</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">5. Tingkat kematangan digital perusahaan secara umum <span class="req">*</span></label>
+        <div class="scale" data-name="kematanganDigital">
+          <label><input type="radio" name="kematanganDigital" value="1" required><span>1</span></label>
+          <label><input type="radio" name="kematanganDigital" value="2"><span>2</span></label>
+          <label><input type="radio" name="kematanganDigital" value="3"><span>3</span></label>
+          <label><input type="radio" name="kematanganDigital" value="4"><span>4</span></label>
+          <label><input type="radio" name="kematanganDigital" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat rendah</span><span>Sangat tinggi</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">6. Ketersediaan tim IT/data internal yang dapat mendukung integrasi dashboard baru <span class="req">*</span></label>
+        <select name="timIT" required>
+          <option value="">-- Pilih --</option>
+          <option>Ya, memadai</option>
+          <option>Ya, tapi terbatas</option>
+          <option>Tidak ada</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>C. User-Friendliness / Usability</h2>
+
+      <div class="q">
+        <label class="qtitle">7. Seberapa mudah Anda membayangkan dashboard ini dapat digunakan oleh staf non-teknis? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="kemudahanNonTeknis" value="1" required><span>1</span></label>
+          <label><input type="radio" name="kemudahanNonTeknis" value="2"><span>2</span></label>
+          <label><input type="radio" name="kemudahanNonTeknis" value="3"><span>3</span></label>
+          <label><input type="radio" name="kemudahanNonTeknis" value="4"><span>4</span></label>
+          <label><input type="radio" name="kemudahanNonTeknis" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat sulit</span><span>Sangat mudah</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">8. Seberapa penting visualisasi data yang sederhana (grafik, warna, indikator) dibanding tabel data mentah? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="pentingVisualisasi" value="1" required><span>1</span></label>
+          <label><input type="radio" name="pentingVisualisasi" value="2"><span>2</span></label>
+          <label><input type="radio" name="pentingVisualisasi" value="3"><span>3</span></label>
+          <label><input type="radio" name="pentingVisualisasi" value="4"><span>4</span></label>
+          <label><input type="radio" name="pentingVisualisasi" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Tidak penting</span><span>Sangat penting</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">9. Platform apa yang paling sesuai untuk diakses pengguna di perusahaan Anda? <span class="req">*</span></label>
+        <select name="platform" required>
+          <option value="">-- Pilih --</option>
+          <option>Web desktop</option>
+          <option>Aplikasi mobile</option>
+          <option>Keduanya</option>
+        </select>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">10. Seberapa penting dashboard dapat digunakan tanpa pelatihan khusus (self-explanatory)? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="selfExplanatory" value="1" required><span>1</span></label>
+          <label><input type="radio" name="selfExplanatory" value="2"><span>2</span></label>
+          <label><input type="radio" name="selfExplanatory" value="3"><span>3</span></label>
+          <label><input type="radio" name="selfExplanatory" value="4"><span>4</span></label>
+          <label><input type="radio" name="selfExplanatory" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Tidak penting</span><span>Sangat penting</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>D. Kemungkinan Adopsi Teknologi</h2>
+
+      <div class="q">
+        <label class="qtitle">11. Seberapa besar manfaat yang Anda perkirakan dari dashboard ini bagi pekerjaan/operasional perusahaan? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="persepsiManfaat" value="1" required><span>1</span></label>
+          <label><input type="radio" name="persepsiManfaat" value="2"><span>2</span></label>
+          <label><input type="radio" name="persepsiManfaat" value="3"><span>3</span></label>
+          <label><input type="radio" name="persepsiManfaat" value="4"><span>4</span></label>
+          <label><input type="radio" name="persepsiManfaat" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat kecil</span><span>Sangat besar</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">12. Seberapa mudah Anda memperkirakan proses implementasi dashboard ini di perusahaan Anda? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="persepsiKemudahan" value="1" required><span>1</span></label>
+          <label><input type="radio" name="persepsiKemudahan" value="2"><span>2</span></label>
+          <label><input type="radio" name="persepsiKemudahan" value="3"><span>3</span></label>
+          <label><input type="radio" name="persepsiKemudahan" value="4"><span>4</span></label>
+          <label><input type="radio" name="persepsiKemudahan" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat sulit</span><span>Sangat mudah</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">13. Seberapa besar kemungkinan perusahaan Anda mengadopsi dashboard semacam ini dalam 12 bulan ke depan? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="niatAdopsi" value="1" required><span>1</span></label>
+          <label><input type="radio" name="niatAdopsi" value="2"><span>2</span></label>
+          <label><input type="radio" name="niatAdopsi" value="3"><span>3</span></label>
+          <label><input type="radio" name="niatAdopsi" value="4"><span>4</span></label>
+          <label><input type="radio" name="niatAdopsi" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat kecil</span><span>Sangat besar</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">14. Seberapa besar dukungan manajemen puncak terhadap adopsi teknologi digital/climate-tech baru secara umum? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="dukunganManajemen" value="1" required><span>1</span></label>
+          <label><input type="radio" name="dukunganManajemen" value="2"><span>2</span></label>
+          <label><input type="radio" name="dukunganManajemen" value="3"><span>3</span></label>
+          <label><input type="radio" name="dukunganManajemen" value="4"><span>4</span></label>
+          <label><input type="radio" name="dukunganManajemen" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat rendah</span><span>Sangat tinggi</span></div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">15. Status anggaran untuk digitalisasi/climate-tech dalam 1-2 tahun ke depan <span class="req">*</span></label>
+        <select name="statusAnggaran" required>
+          <option value="">-- Pilih --</option>
+          <option>Sudah ada anggaran</option>
+          <option>Sedang direncanakan</option>
+          <option>Belum ada rencana</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>E. Manfaat & Hambatan</h2>
+
+      <div class="q">
+        <label class="qtitle">16. Manfaat apa yang paling Anda harapkan dari dashboard ini? <span class="req">*</span> <div class="hint">(pilih maksimal 3)</div></label>
+        <div class="options">
+          <label><input type="checkbox" name="manfaatDiharapkan" value="Kepatuhan regulasi/compliance">Kepatuhan regulasi/compliance</label>
+          <label><input type="checkbox" name="manfaatDiharapkan" value="Efisiensi operasional">Efisiensi operasional</label>
+          <label><input type="checkbox" name="manfaatDiharapkan" value="Penghematan biaya energi">Penghematan biaya energi</label>
+          <label><input type="checkbox" name="manfaatDiharapkan" value="Reputasi/branding keberlanjutan">Reputasi/branding keberlanjutan</label>
+          <label><input type="checkbox" name="manfaatDiharapkan" value="Dukungan pelaporan ke investor/stakeholder">Dukungan pelaporan ke investor/stakeholder</label>
+          <label><input type="checkbox" name="manfaatDiharapkan" value="Pengambilan keputusan lebih cepat">Pengambilan keputusan lebih cepat</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">17. Apa hambatan utama yang Anda perkirakan dalam mengadopsi dashboard ini? <span class="req">*</span> <div class="hint">(pilih maksimal 3)</div></label>
+        <div class="options">
+          <label><input type="checkbox" name="hambatanUtama" value="Biaya implementasi">Biaya implementasi</label>
+          <label><input type="checkbox" name="hambatanUtama" value="Kurangnya SDM/keahlian">Kurangnya SDM/keahlian</label>
+          <label><input type="checkbox" name="hambatanUtama" value="Keamanan & privasi data">Keamanan & privasi data</label>
+          <label><input type="checkbox" name="hambatanUtama" value="Integrasi dengan sistem lama">Integrasi dengan sistem lama</label>
+          <label><input type="checkbox" name="hambatanUtama" value="Resistensi perubahan dari karyawan">Resistensi perubahan dari karyawan</label>
+          <label><input type="checkbox" name="hambatanUtama" value="Ketidakjelasan manfaat/ROI">Ketidakjelasan manfaat/ROI</label>
+        </div>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">18. Seberapa besar kekhawatiran Anda terhadap keamanan dan privasi data yang akan diinput ke dashboard ini? <span class="req">*</span></label>
+        <div class="scale">
+          <label><input type="radio" name="kekhawatiranKeamanan" value="1" required><span>1</span></label>
+          <label><input type="radio" name="kekhawatiranKeamanan" value="2"><span>2</span></label>
+          <label><input type="radio" name="kekhawatiranKeamanan" value="3"><span>3</span></label>
+          <label><input type="radio" name="kekhawatiranKeamanan" value="4"><span>4</span></label>
+          <label><input type="radio" name="kekhawatiranKeamanan" value="5"><span>5</span></label>
+        </div>
+        <div class="scale-caption"><span>Sangat rendah</span><span>Sangat tinggi</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>F. Pertanyaan Terbuka</h2>
+
+      <div class="q">
+        <label class="qtitle">19. Fitur atau kemampuan apa yang paling Anda harapkan ada pada dashboard ini, dan mengapa?</label>
+        <textarea name="fiturDiharapkan" rows="3"></textarea>
+      </div>
+
+      <div class="q">
+        <label class="qtitle">20. Apa kekhawatiran terbesar Anda, atau saran agar perusahaan Anda bersedia mengadopsi dashboard ini?</label>
+        <textarea name="saranAdopsi" rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="card">
+      <button type="submit" id="submitBtn">Kirim Jawaban</button>
+      <div id="errorMsg">Gagal mengirim. Silakan coba lagi.</div>
+    </div>
+
+  </form>
+
+  <div class="card" id="successMsg">
+    <h2>Terima kasih!</h2>
+    <p>Jawaban Anda telah berhasil dikirim dan sangat membantu studi kelayakan climate dashboard ini.</p>
+  </div>
+
+</div>
+
+<script>
+// Ganti URL di bawah ini dengan Web App URL hasil deploy Google Apps Script Anda.
+const SCRIPT_URL = "GANTI_DENGAN_URL_WEB_APP_APPS_SCRIPT";
+
+const form = document.getElementById('surveyForm');
+const submitBtn = document.getElementById('submitBtn');
+const errorMsg = document.getElementById('errorMsg');
+const successMsg = document.getElementById('successMsg');
+
+form.addEventListener('submit', function(e){
+  e.preventDefault();
+  errorMsg.style.display = 'none';
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Mengirim...';
+
+  const formData = new FormData(form);
+
+  fetch(SCRIPT_URL, {
+    method: 'POST',
+    body: formData
+  })
+  .then(() => {
+    form.style.display = 'none';
+    successMsg.style.display = 'block';
+  })
+  .catch((err) => {
+    errorMsg.style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Kirim Jawaban';
+  });
+});
+</script>
+
+</body>
+</html>
